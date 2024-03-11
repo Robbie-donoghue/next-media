@@ -1,3 +1,5 @@
+import { auth } from "@clerk/nextjs";
+import { sql } from "@vercel/postgres";
 export default function Page() {
   const { userId } = auth();
   async function handleCreateUser(formData) {
@@ -17,8 +19,8 @@ export default function Page() {
     <div>
       <form action={handleCreateUser} className="text-black">
         <input name="username" placeholder="username" />
-        <input name="bio" placeholder="a small bio.." />
-        <SubmitButton thing="profile" />
+        <input name="bio" placeholder="bio.." />
+        <button type="submit"></button>
       </form>
     </div>
   );

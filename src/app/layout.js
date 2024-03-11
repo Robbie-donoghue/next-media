@@ -1,8 +1,10 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { ClerkProvider } from "@clerk/nextjs/dist/types/components.server";
+import { ClerkProvider } from "@clerk/nextjs";
+import { SignedIn, UserButton, SignedOut, SignInButton } from "@clerk/nextjs";
 
 const inter = Inter({ subsets: ["latin"] });
+import NavBar from "./components/NavBar";
 
 export const metadata = {
   title: "Create Next App",
@@ -13,7 +15,16 @@ export default function RootLayout({ children }) {
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={inter.className}>{children}</body>
+        <body className={inter.className}>
+          <SignedIn>
+            <UserButton />
+          </SignedIn>
+          <SignedOut>
+            <SignInButton afterSignInUrl="/" afterSignUpUrl="/users/sign-up" />
+          </SignedOut>
+          <NavBar></NavBar>
+          {children}
+        </body>
       </html>
     </ClerkProvider>
   );
