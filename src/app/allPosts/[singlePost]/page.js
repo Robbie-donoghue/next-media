@@ -15,7 +15,7 @@ export default async function Page({ params }) {
     "use server";
     const comment = formData.get("comment");
     const username = formData.get("username");
-    await sql`INSERT INTO comments (username, comment, post_id)
+    await sql`INSERT INTO comments01 (username, comment, post_id)
          VALUES (${username}, ${comment}, ${post.post_id}) `;
     console.log("comment saved");
   }
