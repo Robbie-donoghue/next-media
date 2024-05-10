@@ -1,13 +1,14 @@
 import { sql } from "@vercel/postgres";
 import { notFound } from "next/navigation";
+import Image from "next/image";
 export default async function Page({ params }) {
   //get single post
   console.log(params.singlePost);
   const post = (
-    await sql`SELECT * FROM posts WHERE post_id = ${params.singlePost} `
+    await sql`SELECT * FROM posts01 WHERE post_id = ${params.singlePost} `
   ).rows[0];
   const comments = (
-    await sql`SELECT * FROM comments WHERE post_id = ${params.singlePost}`
+    await sql`SELECT * FROM comments01 WHERE post_id = ${params.singlePost}`
   ).rows;
   //handle posts
   async function handleComments(formData) {
@@ -26,6 +27,9 @@ export default async function Page({ params }) {
     <div>
       <h2 className="text-2xl font-bold mb-4">{post.title}</h2>
       <h3 className="text-lg mb-4">{post.content}</h3>
+      {/* display image_url */}
+      {<Image src={post.image_url} alt="" width={500} height={500} />}
+
       <div>
         <h4 className="text-xl font-bold mb-4">Comments</h4>
         <div className="mb-4">

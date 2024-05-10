@@ -7,7 +7,7 @@ export default function Page() {
     console.log("the happening");
     const { username, bio } = Object.fromEntries(formData);
     try {
-      await sql`INSERT INTO users (clerk_id, username, bio)
+      await sql`INSERT INTO users01 (clerk_id, username, bio)
                     VALUES
                     (${userId} , ${username}, ${bio}
                     );`;

@@ -1,6 +1,6 @@
 import { auth } from "@clerk/nextjs";
-import { redirect } from "next/dist/server/api-utils";
 import { sql } from "@vercel/postgres";
+import { redirect } from "next/navigation";
 export default function Page() {
   const { userId } = auth();
 
@@ -13,8 +13,9 @@ export default function Page() {
     const title = formData.get("title");
     const content = formData.get("content");
     const image_url = formData.get("image_url");
-    await sql`INSERT INTO posts (title, content, image_url ,user_id) VALUES (${title}, ${content}, ${image_url},${userId}) `;
+    await sql`INSERT INTO posts01 (title, content, image_url) VALUES (${title}, ${content}, ${image_url}) `;
     console.log("post saved");
+    redirect("/allPosts");
   }
   return (
     <div className="p-4">

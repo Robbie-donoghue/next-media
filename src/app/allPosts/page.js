@@ -1,8 +1,9 @@
 import { sql } from "@vercel/postgres";
 import Link from "next/link";
+import Image from "next/image";
 export default async function Page({ params }) {
   console.log(params.posts);
-  const posts = (await sql`SELECT * FROM posts`).rows;
+  const posts = (await sql`SELECT * FROM posts01`).rows;
   return (
     <div className="p-4">
       <h1 className="text-3xl font-bold mb-4"> Posts</h1>
@@ -18,6 +19,7 @@ export default async function Page({ params }) {
               </h3>
               <h5 className="text-lg">{post.content}</h5>
             </Link>
+            {<Image src={post.image_url} alt="" width={300} height={300} />}
           </div>
         ))}
       </div>
