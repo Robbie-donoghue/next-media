@@ -5,7 +5,6 @@ import { revalidatePath } from "next/cache";
 export default async function Page({ params }) {
   console.log(params.posts);
   const posts = (await sql`SELECT * FROM posts01`).rows;
-  revalidatePath(`allPosts`);
   return (
     <div className="p-4">
       <h1 className="text-3xl font-bold mb-4"> Posts</h1>

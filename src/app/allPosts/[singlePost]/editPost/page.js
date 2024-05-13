@@ -1,9 +1,14 @@
 import { sql } from "@vercel/postgres";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import Link from "next/link";
 export default async function Page({ params }) {
   //check params
   console.log(params.singlePost);
+  //save post var
+  const post = (
+    await sql`SELECT * FROM posts01 WHERE post_id = ${params.singlePost} `
+  ).rows[0];
   //sql for editing post
   async function handleEditPost(formdata) {
     "use server";
@@ -29,7 +34,6 @@ export default async function Page({ params }) {
   //display UI form
   return (
     <>
-      <h1>Edit posts form for {params.singlePost}</h1>
       <div className="p-4">
         <form action={handleEditPost} className="max-w-md mx-auto">
           <h2 className="text-2xl font-bold mb-4">Edit Post</h2>
@@ -41,6 +45,7 @@ export default async function Page({ params }) {
               id="title"
               name="title"
               className="w-full px-4 py-2 border border-gray-300 rounded-md"
+              defaultValue={post.title}
             />
           </div>
           <div className="mb-4">
@@ -52,6 +57,7 @@ export default async function Page({ params }) {
               name="content"
               rows="4"
               className="w-full px-4 py-2 border border-gray-300 rounded-md"
+              defaultValue={post.content}
             ></textarea>
           </div>
           <div className="mb-4">
@@ -62,14 +68,21 @@ export default async function Page({ params }) {
               id="image_url"
               name="image_url"
               className="w-full px-4 py-2 border border-gray-300 rounded-md"
+              defaultValue={post.image_url}
             />
           </div>
-          <button
-            type="submit"
-            className="px-4 py-2 bg-blue-500 text-white font-bold rounded-md hover:bg-blue-600"
-          >
-            Submit
-          </button>
+          {/* cancel button */}
+          <div className="flex items-center justify-between">
+            <button className="px-4 py-2 bg-blue-500 text-white font-bold rounded-md hover:bg-blue-600">
+              <Link href={`/allPosts/${params.singlePost}`}>Cancel</Link>
+            </button>
+            <button
+              type="submit"
+              className="px-4 py-2 bg-blue-500 text-white font-bold rounded-md hover:bg-blue-600 "
+            >
+              Submit
+            </button>
+          </div>
         </form>
       </div>
     </>
