@@ -46,6 +46,7 @@ export default async function Page({ params }) {
               name="title"
               className="w-full px-4 py-2 border border-gray-300 rounded-md"
               defaultValue={post.title}
+              required
             />
           </div>
           <div className="mb-4">
@@ -58,6 +59,7 @@ export default async function Page({ params }) {
               rows="4"
               className="w-full px-4 py-2 border border-gray-300 rounded-md"
               defaultValue={post.content}
+              required
             ></textarea>
           </div>
           <div className="mb-4">
@@ -69,6 +71,7 @@ export default async function Page({ params }) {
               name="image_url"
               className="w-full px-4 py-2 border border-gray-300 rounded-md"
               defaultValue={post.image_url}
+              required
             />
           </div>
           {/* cancel button */}

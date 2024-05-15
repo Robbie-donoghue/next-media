@@ -2,9 +2,10 @@ import { sql } from "@vercel/postgres";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import { revalidatePath } from "next/cache";
-import RemoveBtn from "@/app/components/RemoveBtn";
 import Link from "next/link";
 import { HiPencilAlt } from "react-icons/hi";
+import RemoveBtn from "@/app/components/RemoveBtn";
+import RemoveBtnComments from "@/app/components/RemoveBtnComments";
 export default async function Page({ params }) {
   //get single post
   console.log(params.singlePost);
@@ -37,7 +38,8 @@ export default async function Page({ params }) {
         <div>
           <h2 className="text-2xl font-bold mb-4">{post.title}</h2>
           <div className="flex justify-end gap-5">
-            <RemoveBtn />
+            {/* delete post */}
+            <RemoveBtn post_id={post.post_id} />
             {/* //edit button */}
             <Link href={`${params.singlePost}/editPost`}>
               <HiPencilAlt size={24} />
@@ -45,7 +47,16 @@ export default async function Page({ params }) {
           </div>
           <h3 className="text-lg mb-4">{post.content}</h3>
           {/* display image_url */}
-          {<Image src={post.image_url} alt="" width={500} height={500} />}
+          {post.image_url ? (
+            <Image
+              src={post.image_url}
+              alt={`image of ${post.title}`}
+              width={300}
+              height={300}
+            />
+          ) : (
+            <h3>Image unavailable</h3>
+          )}
         </div>
         {/* //comments */}
         <div>
@@ -55,11 +66,13 @@ export default async function Page({ params }) {
               <input
                 name="username"
                 placeholder="Username"
+                value={comments.username}
                 className="mr-2 px-4 py-2 border border-gray-300 rounded-md"
               />
               <input
                 name="comment"
                 placeholder="Comment..."
+                value={comments.comment}
                 className="flex-1 mr-2 px-4 py-2 border border-gray-300 rounded-md"
               />
               <button
@@ -70,6 +83,7 @@ export default async function Page({ params }) {
               </button>
             </form>
           </div>
+          {/* //display comments */}
           <div>
             {comments.map((comment) => (
               <div
@@ -79,6 +93,10 @@ export default async function Page({ params }) {
                 <p className="font-bold text-lg mb-2">{comment.username}</p>
                 <div>
                   <p>{comment.comment}</p>
+                </div>
+                {/* delete comment */}
+                <div className="flex justify-end gap-5">
+                  <RemoveBtnComments comment_id={comment.comment_id} />
                 </div>
               </div>
             ))}
