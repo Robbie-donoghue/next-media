@@ -6,6 +6,8 @@ import Link from "next/link";
 import { HiPencilAlt } from "react-icons/hi";
 import RemoveBtn from "@/app/components/RemoveBtn";
 import RemoveBtnComments from "@/app/components/RemoveBtnComments";
+import { handleComments } from "@/app/components/utils";
+import CommentsForm from "@/app/components/CommentsForm";
 export default async function Page({ params }) {
   //get single post
   console.log(params.singlePost);
@@ -16,6 +18,7 @@ export default async function Page({ params }) {
     await sql`SELECT * FROM comments01 WHERE post_id = ${params.singlePost}`
   ).rows;
   //handle posts
+
   async function handleComments(formData) {
     "use server";
     const comment = formData.get("comment");
@@ -51,14 +54,15 @@ export default async function Page({ params }) {
             <Image
               src={post.image_url}
               alt={`image of ${post.title}`}
-              width={300}
-              height={300}
+              width={700}
+              height={700}
             />
           ) : (
             <h3>Image unavailable</h3>
           )}
         </div>
         {/* //comments */}
+
         <div>
           <h4 className="text-xl font-bold mb-4">Comments</h4>
           <div className="mb-4">
